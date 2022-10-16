@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sport.vuesport.mapper.MenuMapper">
+    <!--关系映射(column: 查询字段 property: 实体字段)-->
+    <resultMap id="menuMap" type="MainMenu">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="path" property="path"/>
+        <!--一对多 => 收集次分支菜单-->
+        <collection property="sList" ofType="subMenu">
+            <id column="sId" property="id"/>
+            <result column="sTitle" property="title"/>
+            <result column="sPath" property="path"/>
+        </collection>
+    </resultMap>
+    <select id="getMainMenus" resultMap="menuMap">
+        select mm.*,
+               sm.id    as sId,
+               sm.title as sTitle,
+               sm.path  as sPath
+        from submenu sm,
+             mainmenu mm
+        where mm.id = sm.mid
+    </select>
+</mapper>

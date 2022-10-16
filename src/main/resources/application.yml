@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    username: root
+    password: 3306
+    # mysql 8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/vuesport?serverTimezone=UTC
+
+# 使用 vue 时候将会占用 8080 端口
+server:
+  port: 9090
+
+# mybatis 配置
+mybatis:
+  type-aliases-package: com.sport.vuesport.pojo

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sport.vuesport.mapper.UserMapper">
+
+    <select id="getUserByMessage" resultType="User">
+        select *
+        from easyuser
+        where username = #{username}
+          and password = #{password}
+          and state = 1
+    </select>
+
+    <select id="getAllUser" resultType="User">
+        select * from easyuser
+        <!--动态 sql = > 实现模糊查询-->
+        <if test="username != null">
+            where username like '%${username}%'
+        </if>
+        limit #{pageStart}, #{pageSize}
+    </select>
+
+    <select id="getUserCounts" resultType="java.lang.Integer">
+        select count(*)
+        from easyuser
+        <!--实现模糊查询-->
+        <if test="username != null">
+            <!--模糊查询须使用 ${ } 如果使用 #{将会拼接 引号}-->
+            where username like '%${username}%'
+        </if>
+    </select>
+
+    <update id="updateState">
+        update easyuser
+        set state = #{state}
+        where id = #{id}
+    </update>
+
+    <insert id="addUser">
+        insert into easyuser
+            (username, password, email, role, state)
+        values (#{username}, #{password}, #{email}, #{role}, #{state})
+    </insert>
+
+    <!--实际项目中不会真正删除-->
+    <delete id="deleteUser">
+        delete
+        from easyuser
+        where id = #{id}
+    </delete>
+
+    <select id="getUpdateUser" resultType="User">
+        select *
+        from easyuser
+        where id = #{id}
+    </select>
+
+    <update id="editUser">
+        update easyuser
+        set username = #{username},
+            password = #{password},
+            email    = #{email}
+        where id = #{id}
+    </update>
+</mapper>
